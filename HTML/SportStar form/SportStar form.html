@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>2020년대 운동선수 브랜드 평판 조사</title>
+    <link rel="stylesheet" href="SportStar form.css" />
+</head>
+
+<body>
+    <div class="form-container">
+        <h1>🏆 2020년대 운동선수 브랜드 평판 조사 🏆</h1>
+        <form id="survey-form">
+            <label for="name">이름 (선택)</label>
+            <input type="text" id="name" name="name" placeholder="익명 가능" />
+
+            <label for="memorable-athlete">가장 인상 깊었던 운동선수는 누구입니까?</label>
+            <input type="text" id="memorable-athlete" name="memorable-athlete" required />
+
+            <label for="memorable-moment">그 선수가 남긴 인상적인 장면이나 경기 (자유 서술)</label>
+            <textarea id="memorable-moment" name="memorable-moment" rows="4" required></textarea>
+
+            <label for="brand-image">그 선수에게 느낀 브랜드 이미지 (복수 선택 가능)</label>
+            <div class="radio-group">
+                <label><input type="checkbox" name="brand-image" value="신뢰감" /> 신뢰감</label>
+                <label><input type="checkbox" name="brand-image" value="열정" /> 열정</label>
+                <label><input type="checkbox" name="brand-image" value="정직함" /> 정직함</label>
+                <label><input type="checkbox" name="brand-image" value="도전정신" /> 도전정신</label>
+                <label><input type="checkbox" name="brand-image" value="스타성" /> 스타성</label>
+                <label><input type="checkbox" name="brand-image" value="리더십" /> 리더십</label>
+                <label><input type="checkbox" name="brand-image" value="팀워크" /> 팀워크</label>
+                <label><input type="checkbox" name="brand-image" value="겸손함" /> 겸손함</label>
+                <label><input type="checkbox" name="brand-image" value="팬서비스" /> 팬서비스</label>
+                <label><input type="checkbox" name="brand-image" value="기타" /> 기타</label>
+            </div>
+
+            <label for="reputation-score">브랜드 평판 점수 (1점: 낮음 ~ 10점: 매우 높음)</label>
+            <select id="reputation-score" name="reputation-score" required>
+                <option value="">선택하세요</option>
+                <option value="1">1점</option>
+                <option value="2">2점</option>
+                <option value="3">3점</option>
+                <option value="4">4점</option>
+                <option value="5">5점</option>
+                <option value="6">6점</option>
+                <option value="7">7점</option>
+                <option value="8">8점</option>
+                <option value="9">9점</option>
+                <option value="10">10점</option>
+            </select>
+
+            <label for="opinion">기타 의견이나 제안 (선택)</label>
+            <textarea id="opinion" name="opinion" rows="3" placeholder="자유롭게 입력해 주세요."></textarea>
+
+            <button type="submit" class="submit-btn">제출하기</button>
+        </form>
+
+        <div id="result" class="result-container" style="display:none;">
+            <h2>📊 설문 결과</h2>
+            <div id="result-content"></div>
+            <button id="reset-btn" class="submit-btn" style="background-color:#888; margin-top:20px;">다시 작성하기</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('survey-form');
+        const resultDiv = document.getElementById('result');
+        const resultContent = document.getElementById('result-content');
+        const resetBtn = document.getElementById('reset-btn');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // 입력값 수집
+            const name = form.name.value.trim() || '익명';
+            const athlete = form['memorable-athlete'].value.trim();
+            const moment = form['memorable-moment'].value.trim();
+
+            // 체크박스 값 배열로 수집
+            const brandImages = Array.from(form.querySelectorAll('input[name="brand-image"]:checked'))
+                .map(cb => cb.value);
+            const imagesText = brandImages.length > 0 ? brandImages.join(', ') : '선택하지 않음';
+
+            const score = form['reputation-score'].value;
+            const opinion = form.opinion.value.trim() || '없음';
+
+            // 결과 HTML 생성
+            const html = `
+        <p><strong>이름:</strong> ${name}</p>
+        <p><strong>가장 인상 깊었던 선수:</strong> ${athlete}</p>
+        <p><strong>인상적인 장면/경기:</strong> ${moment}</p>
+        <p><strong>브랜드 이미지:</strong> ${imagesText}</p>
+        <p><strong>브랜드 평판 점수:</strong> ${score}점</p>
+        <p><strong>기타 의견:</strong> ${opinion}</p>
+`;
+
+            // 결과 보이기 & 폼 숨기기
+            resultContent.innerHTML = html;
+            resultDiv.style.display = 'block';
+            form.style.display = 'none';
+        });
+
+        resetBtn.addEventListener('click', () => {
+            form.reset();
+            form.style.display = 'block';
+            resultDiv.style.display = 'none';
+        });
+    </script>
+</body>
+
+</html>
