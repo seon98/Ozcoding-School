@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Flask Challenge N.1</title>
+  </head>
+  <body>
+    <h1>Flask challenge N.1</h1>
+    <ul>
+      {% for user in users %}
+      <li>{{ user.name }} ({{ user.username }})</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>
